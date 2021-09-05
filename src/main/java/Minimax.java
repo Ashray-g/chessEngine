@@ -2,12 +2,14 @@ import com.github.bhlangonijr.chesslib.Board;
 import com.github.bhlangonijr.chesslib.Square;
 import com.github.bhlangonijr.chesslib.move.Move;
 
-import javax.management.Notification;
+import java.util.HashMap;
 import java.util.List;
 
 public class Minimax {
 
     public static int calcTotal = 0;
+
+    static HashMap<Long, Double> evals = new HashMap<>();
 
     public static Move nextMove(int depth, boolean white){
         Move best = new Move(Square.A2, Square.A3);
@@ -28,7 +30,12 @@ public class Minimax {
 
     public static double minimaxAlphaBeta(int depth, boolean maximisingPlayer, Board pos, double alpha, double beta, boolean white){
         if(depth == 0 || pos.isStaleMate() || pos.isMated() || pos.isDraw()){
-            return Eval.eval(pos, white);
+            double ev = Eval.evalLocations(pos, white);
+//            double ev = Eval.basicEval(pos, white);
+//            long zob = pos.getZobristKey();
+//            if(evals.containsKey(zob)) return evals.get(zob);
+//            else evals.put(zob, ev);
+            return ev;
         }
         calcTotal++;
 
