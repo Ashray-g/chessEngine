@@ -1,3 +1,5 @@
+package engine;
+
 import com.github.bhlangonijr.chesslib.Piece;
 import com.github.bhlangonijr.chesslib.PieceType;
 

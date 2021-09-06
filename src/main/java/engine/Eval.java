@@ -1,3 +1,5 @@
+package engine;
+
 import com.github.bhlangonijr.chesslib.*;
 
 import java.util.List;
@@ -29,6 +31,19 @@ public class Eval {
     }
     public static double evalLocations(Board br, boolean white){
 
+        Side m = br.getSideToMove();
+        br.setSideToMove(Side.BLACK);
+        int moves2 = br.legalMoves().size() * 3;
+        if(br.isMated()){
+            return 100000;
+        }
+        br.setSideToMove(Side.WHITE);
+        int moves = br.legalMoves().size() * 3;
+        if(br.isMated()){
+            return -100000;
+        }
+        br.setSideToMove(m);
+
         int queen = PieceScore(Piece.WHITE_QUEEN, br);
         int bishop = PieceScore(Piece.WHITE_BISHOP, br);
         int rook = PieceScore(Piece.WHITE_ROOK, br);
@@ -46,12 +61,12 @@ public class Eval {
                 bishop - bishop2 +
                 rook - rook2 +
                 knight - knight2 +
-                pawn - pawn2;
+                pawn - pawn2 + moves - moves2;
         else return queen2 - queen +
                 bishop2 - bishop +
                 rook2 - rook +
                 knight2 - knight +
-                pawn2 - pawn;
+                pawn2 - pawn + moves2 - moves;
 
     }
     public static int PieceScore(Piece p, Board br){
@@ -81,8 +96,6 @@ public class Eval {
                 File f = sq.getFile();
                 int x = f.getNotation().charAt(0) - 'A';
                 int y = 7 - Integer.parseInt(r.getNotation())+1;
-//                System.out.println(x + " " + y);
-//
                 int lo = (7 - y) * 8 + x;
                 PieceType pt = p.getPieceType();
                 int bonus = BonusBoards.bonus.get(pt)[lo];

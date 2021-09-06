@@ -1,4 +1,4 @@
-/Users/ashray/Library/Java/JavaVirtualMachines/corretto-11.0.12/Contents/Home/bin/java -javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53680:/Applications/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Users/ashray/Desktop/FRCPractice/chessEngine/target/classes:/Users/ashray/.m2/repository/com/github/bhlangonijr/chesslib/1.3.2/chesslib-1.3.2.jar Main
+/Users/ashray/Library/Java/JavaVirtualMachines/corretto-11.0.12/Contents/Home/bin/java -javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53680:/Applications/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Users/ashray/Desktop/FRCPractice/chessEngine/target/classes:/Users/ashray/.m2/repository/com/github/bhlangonijr/chesslib/1.3.2/chesslib-1.3.2.jar engine.Main
 --------------------------
 rnbqkbnr
 pppppppp

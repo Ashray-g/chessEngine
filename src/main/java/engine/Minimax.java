@@ -1,3 +1,5 @@
+package engine;
+
 import com.github.bhlangonijr.chesslib.Board;
 import com.github.bhlangonijr.chesslib.Square;
 import com.github.bhlangonijr.chesslib.move.Move;
@@ -15,7 +17,7 @@ public class Minimax {
         Move best = new Move(Square.A2, Square.A3);
         Board temp = new Board();
         temp.loadFromFen(BoardController.getBoard().getFen());
-        double evalMax = -1000;
+        double evalMax = -1000000;
         for(Move j : BoardController.getBoard().legalMoves()){
             temp.doMove(j);
             double eval = Minimax.minimaxAlphaBeta(depth, false, temp, -100000, 100000, white);
@@ -31,7 +33,7 @@ public class Minimax {
     public static double minimaxAlphaBeta(int depth, boolean maximisingPlayer, Board pos, double alpha, double beta, boolean white){
         if(depth == 0 || pos.isStaleMate() || pos.isMated() || pos.isDraw()){
             double ev = Eval.evalLocations(pos, white);
-//            double ev = Eval.basicEval(pos, white);
+//            double ev = engine.Eval.basicEval(pos, white);
 //            long zob = pos.getZobristKey();
 //            if(evals.containsKey(zob)) return evals.get(zob);
 //            else evals.put(zob, ev);
@@ -69,4 +71,6 @@ public class Minimax {
             return minEval;
         }
     }
+
+
 }
