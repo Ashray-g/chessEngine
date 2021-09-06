@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 
 
 public class APIControl {
+
     static String code = Key.key;
 
     public static String createChallenge(int level) throws IOException {
