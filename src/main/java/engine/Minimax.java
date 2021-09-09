@@ -4,6 +4,7 @@ import com.github.bhlangonijr.chesslib.Board;
 import com.github.bhlangonijr.chesslib.Square;
 import com.github.bhlangonijr.chesslib.move.Move;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,15 +19,23 @@ public class Minimax {
         Board temp = new Board();
         temp.loadFromFen(BoardController.getBoard().getFen());
         double evalMax = -1000000;
-        for(Move j : BoardController.getBoard().legalMoves()){
+        int ct = 0;
+        List<Move> ms = BoardController.getBoard().legalMoves();
+        ms.sort(new Sort.MoveComparator());
+        for(Move j : ms){
             temp.doMove(j);
             double eval = Minimax.minimaxAlphaBeta(depth, false, temp, -100000, 100000, white);
             if(eval > evalMax){
                 evalMax = eval;
                 best = j;
             }
+            ct++;
+            System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
+            System.out.print("[" + ct + "/" + ms.size() + "] (" + Math.round(((double)ct*100/ms.size())) + "%)");
             temp.loadFromFen(BoardController.getBoard().getFen());
         }
+        System.out.println();
+        System.out.println(evalMax + " " + best);
         return best;
     }
 
@@ -44,6 +53,9 @@ public class Minimax {
         if(maximisingPlayer){
             double maxEval = -10000;
             List<Move> ls = pos.legalMoves();
+
+            ls.sort(new Sort.MoveComparator());
+
             Board temp = new Board();
             temp.loadFromFen(pos.getFen());
             for(Move m : ls){

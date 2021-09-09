@@ -33,12 +33,15 @@ public class Eval {
 
         Side m = br.getSideToMove();
         br.setSideToMove(Side.BLACK);
+//        int moves2 = 0;
         int moves2 = br.legalMoves().size() * 3;
         if(br.isMated()){
+//            System.out.println(br.legalMoves());
             return 100000;
         }
         br.setSideToMove(Side.WHITE);
         int moves = br.legalMoves().size() * 3;
+//        int moves = 0;
         if(br.isMated()){
             return -100000;
         }
@@ -61,47 +64,48 @@ public class Eval {
                 bishop - bishop2 +
                 rook - rook2 +
                 knight - knight2 +
-                pawn - pawn2 + moves - moves2;
+                pawn - pawn2 + ((double)(moves - moves2)/10);
         else return queen2 - queen +
                 bishop2 - bishop +
                 rook2 - rook +
                 knight2 - knight +
-                pawn2 - pawn + moves2 - moves;
+                pawn2 - pawn + ((double)(moves2 - moves)/10);
 
     }
     public static int PieceScore(Piece p, Board br){
-        if(p.getPieceSide() == Side.WHITE) {
-            List<Square> loc = br.getPieceLocation(p);
-            int score = BonusBoards.pieceValue.get(p) * loc.size();
+        if(p.getPieceType()==PieceType.KING) return 1000;
+            if (p.getPieceSide() == Side.WHITE) {
+                List<Square> loc = br.getPieceLocation(p);
+                int score = BonusBoards.pieceValue.get(p) * loc.size();
 
-            for(Square sq : loc){
-                Rank r = sq.getRank();
-                File f = sq.getFile();
-                int x = f.getNotation().charAt(0) - 'A';
-                int y = Integer.parseInt(r.getNotation())-1;
+                for (Square sq : loc) {
+                    Rank r = sq.getRank();
+                    File f = sq.getFile();
+                    int x = f.getNotation().charAt(0) - 'A';
+                    int y = Integer.parseInt(r.getNotation()) - 1;
 
-                int lo = (7 - y) * 8 + x;
-                PieceType pt = p.getPieceType();
-                int bonus = BonusBoards.bonus.get(pt)[lo];
-                score += bonus;
+                    int lo = (7 - y) * 8 + x;
+                    PieceType pt = p.getPieceType();
+                    int bonus = BonusBoards.bonus.get(pt)[lo];
+                    score += bonus;
+                }
+                return score;
+
+            } else {
+                List<Square> loc = br.getPieceLocation(p);
+                int score = BonusBoards.pieceValue.get(p) * loc.size();
+
+                for (Square sq : loc) {
+                    Rank r = sq.getRank();
+                    File f = sq.getFile();
+                    int x = f.getNotation().charAt(0) - 'A';
+                    int y = 7 - Integer.parseInt(r.getNotation()) + 1;
+                    int lo = (7 - y) * 8 + x;
+                    PieceType pt = p.getPieceType();
+                    int bonus = BonusBoards.bonus.get(pt)[lo];
+                    score += bonus;
+                }
+                return score;
             }
-            return score;
-
-        }else{
-            List<Square> loc = br.getPieceLocation(p);
-            int score = BonusBoards.pieceValue.get(p) * loc.size();
-
-            for(Square sq : loc){
-                Rank r = sq.getRank();
-                File f = sq.getFile();
-                int x = f.getNotation().charAt(0) - 'A';
-                int y = 7 - Integer.parseInt(r.getNotation())+1;
-                int lo = (7 - y) * 8 + x;
-                PieceType pt = p.getPieceType();
-                int bonus = BonusBoards.bonus.get(pt)[lo];
-                score += bonus;
-            }
-            return score;
-        }
     }
 }

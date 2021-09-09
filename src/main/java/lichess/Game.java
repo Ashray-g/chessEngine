@@ -15,8 +15,8 @@ public class Game {
         Setup.setup();
         LoadGames.load();
 
-//        String game = APIControl.createChallenge(4);
-        String game = APIControl.createChallenge("yeoldwiz", true);
+        String game = APIControl.createChallenge(1);
+//        String game = APIControl.createChallenge("Sidd444", true);
 
         System.out.println("Id: " + game);
 
